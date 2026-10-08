@@ -28,26 +28,26 @@
         android:layout_marginBottom="12dp">
 
         <RadioButton
-            android:id="@+id/rgMustangEcoboost"
+            android:id="@+id/rbMustangEcoboost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ecoboost 2.3L"
+            android:text="2.3L Ecoboost"
             android:checked="true">
         </RadioButton>
 
         <RadioButton
-            android:id="@+id/rgMustangV8"
+            android:id="@+id/rbMustangV8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="V8 5.0L"
+            android:text="5.0L V8"
             android:checked="false">
         </RadioButton>
 
         <RadioButton
-            android:id="@+id/rgMustangShelbyGT500"
+            android:id="@+id/rbMustangShelbyGT500"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Shelby GT500 5.0L"
+            android:text="5.0L Shelby GT500"
             android:checked="false">
         </RadioButton>
 
