@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/tvHeaderTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Rezervuj si Mustanga!"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"/>
+
+    <RadioGroup
+        android:id="@+id/rgMustangs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="12dp">
+
+        <RadioButton
+            android:id="@+id/rgMustangEcoboost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ecoboost 2.3L"
+            android:checked="true">
+        </RadioButton>
+
+        <RadioButton
+            android:id="@+id/rgMustangV8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="V8 5.0L"
+            android:checked="false">
+        </RadioButton>
+
+        <RadioButton
+            android:id="@+id/rgMustangShelbyGT500"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Shelby GT500 5.0L"
+            android:checked="false">
+        </RadioButton>
+
+    </RadioGroup>
+
+    <CheckBox
+        android:id="@+id/cbPhoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Včetně možnosti focení">
+    </CheckBox>
+
+    <CheckBox
+        android:id="@+id/cbDriftWheels"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="S driftovacími pneu">
+    </CheckBox>
+
+    <Button
+        android:id="@+id/btnOrder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Objednat"
+        android:layout_marginTop="16dp">
+    </Button>
+
+    <TextView
+        android:id="@+id/tvOrderSummary"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginTop="20dp"
+        android:background="#FFF59D"
+        android:padding="16dp"
+        android:text="Souhrn objednávky:">
+    </TextView>
+
+
+    <ImageView
+        android:id="@+id/ivMustang"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:src="@drawable/eco">
+    </ImageView>
+
+
+</LinearLayout>
