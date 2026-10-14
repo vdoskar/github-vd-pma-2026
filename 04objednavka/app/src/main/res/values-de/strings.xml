@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Mustang-Vermietung</string>
+    <string name="order_title">Reserviere deinen Mustang!</string>
+    <string name="mustang_ecoboost">2.3L Ecoboost</string>
+    <string name="mustang_v8">5.0L V8</string>
+    <string name="mustang_shelby">5.0L Shelby GT500</string>
+    <string name="option_photo">Mit Fotoshooting</string>
+    <string name="option_drift_wheels">Mit Driftreifen</string>
+    <string name="button_order">Bestellen</string>
+    <string name="textview_order_summary">Bestellübersicht:</string>
+    <string name="rental_duration">Mietdauer: %1$d h</string>
+    <string name="duration_description">Mietdauer in Stunden, von 1 bis 8</string>
+    <string name="price_details">Stundensatz: %1$s\nFotoshooting: %2$s · Driftreifen: %3$s\nExtras werden einmal pro Miete berechnet. Beispielpreise.</string>
+    <string name="total_price">Gesamt: %1$s</string>
+    <string name="price_amount">%1$d CZK</string>
+    <string name="order_empty">Wähle Mustang, Mietdauer und Extras und bestätige deine Bestellung.</string>
+    <string name="included">Enthalten</string>
+    <string name="not_included">Nicht enthalten</string>
+    <string name="order_summary">%1$s\nMietdauer: %2$d h\nFotoshooting: %3$s\nDriftreifen: %4$s\nGesamt: %5$s</string>
+    <string name="mustang_image">Foto des %1$s</string>
+</resources>

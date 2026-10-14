@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Pronájem Mustanga</string>
+    <string name="order_title">Rezervuj si Mustanga!</string>
+    <string name="mustang_ecoboost">2.3L Ecoboost</string>
+    <string name="mustang_v8">5.0L V8</string>
+    <string name="mustang_shelby">5.0L Shelby GT500</string>
+    <string name="option_photo">Včetně možnosti focení</string>
+    <string name="option_drift_wheels">S driftovacími pneu</string>
+    <string name="button_order">Objednat</string>
+    <string name="textview_order_summary">Souhrn objednávky:</string>
+    <string name="rental_duration">Délka pronájmu: %1$d h</string>
+    <string name="duration_description">Délka pronájmu v hodinách, od 1 do 8</string>
+    <string name="price_details">Hodinová sazba: %1$s\nFocení: %2$s · Driftovací pneu: %3$s\nDoplňky se účtují jednorázově za pronájem. Ukázkové ceny.</string>
+    <string name="total_price">Celkem: %1$s</string>
+    <string name="price_amount">%1$d Kč</string>
+    <string name="order_empty">Vyber Mustanga, délku pronájmu a doplňky a potvrď objednávku.</string>
+    <string name="included">Zahrnuto</string>
+    <string name="not_included">Nezahrnuto</string>
+    <string name="order_summary">%1$s\nDélka pronájmu: %2$d h\nFocení: %3$s\nDriftovací pneu: %4$s\nCelkem: %5$s</string>
+    <string name="mustang_image">Fotografie vozu %1$s</string>
+</resources>

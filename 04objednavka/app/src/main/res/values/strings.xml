@@ -1,4 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">04-objednavka</string>
-    <string name="textview_order_summary">Souhrn objednávky: </string>
+    <string name="app_name">Mustang Rental</string>
+    <string name="order_title">Book your Mustang!</string>
+    <string name="mustang_ecoboost">2.3L Ecoboost</string>
+    <string name="mustang_v8">5.0L V8</string>
+    <string name="mustang_shelby">5.0L Shelby GT500</string>
+    <string name="option_photo">Include a photo session</string>
+    <string name="option_drift_wheels">With drift tyres</string>
+    <string name="button_order">Order</string>
+    <string name="textview_order_summary">Order summary:</string>
+    <string name="rental_duration">Rental duration: %1$d h</string>
+    <string name="duration_description">Rental duration in hours, from 1 to 8</string>
+    <string name="price_details">Hourly rate: %1$s\nPhoto session: %2$s · Drift tyres: %3$s\nExtras are charged once per rental. Illustrative prices.</string>
+    <string name="total_price">Total: %1$s</string>
+    <string name="price_amount">%1$d CZK</string>
+    <string name="order_empty">Choose a Mustang, duration and extras, then confirm your order.</string>
+    <string name="included">Included</string>
+    <string name="not_included">Not included</string>
+    <string name="order_summary">%1$s\nRental duration: %2$d h\nPhoto session: %3$s\nDrift tyres: %4$s\nTotal: %5$s</string>
+    <string name="mustang_image">Photo of the %1$s</string>
 </resources>
