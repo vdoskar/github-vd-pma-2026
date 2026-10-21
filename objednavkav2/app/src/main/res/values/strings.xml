@@ -1,3 +1,22 @@
 <resources>
-    <string name="app_name">objednavkav2</string>
+    <string name="app_name">Rezervace Mustanga</string>
+    <string name="reservation_title">Rezervace Mustanga</string>
+    <string name="reservation_prompt">Jakého Mustanga chcete rezervovat?</string>
+    <string name="mustang_ecoboost">2.3L Ecoboost</string>
+    <string name="mustang_v8">5.0L V8</string>
+    <string name="mustang_shelby">5.0L Shelby GT500</string>
+    <string name="mustang_image_default">Fotografie vozu 2.3L Ecoboost</string>
+    <string name="mustang_image">Fotografie vozu %1$s</string>
+    <string name="option_photography">Focení</string>
+    <string name="option_drift_wheels">Driftovací pneu</string>
+    <string name="total_price">Cena za 1 hodinu včetně doplňků: %1$d Kč</string>
+    <string name="reserve_button">Zarezervovat</string>
+    <string name="summary_title">Rekapitulace rezervace</string>
+    <string name="selected_mustang">Vybraný Mustang: %1$s</string>
+    <string name="unknown_mustang">Neznámý model</string>
+    <string name="selected_extras">Doplňky:\n%1$s</string>
+    <string name="no_extras">žádné</string>
+    <string name="terms_title">Informace k rezervaci</string>
+    <string name="terms_text">1. CENA\nUvedená částka je ukázková cena za jednu hodinu pronájmu. Focení stojí 500 Kč a driftovací pneu 1 000 Kč za rezervaci. Skutečnou cenu a dostupnost je potřeba potvrdit s poskytovatelem.\n\n2. PŘEVZETÍ VOZU\nPřed převzetím vozu se ověřuje totožnost řidiče, řidičské oprávnění a stav vozidla. Podmínky užití vozu se stanoví při potvrzení rezervace.\n\n3. VRÁCENÍ VOZU\nVůz se vrací v dohodnutém čase a stavu. Případné změny času nebo vybavení je třeba předem domluvit.\n\n4. ÚPRAVA VÝBĚRU\nTlačítkem níže se můžete vrátit k formuláři a změnit model nebo doplňky.</string>
+    <string name="back_to_edit">Zpět k úpravě</string>
 </resources>

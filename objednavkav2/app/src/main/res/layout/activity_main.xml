@@ -1,66 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    android:fillViewport="true"
+    tools:context=".MainActivity">
 
-
-
-    >
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
 
     <TextView
         android:id="@+id/tvHeaderTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:textSize="24dp"
-        android:text="Rezervace Mustanga"
+        android:textSize="24sp"
+        android:text="@string/reservation_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvTitleDescription"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="Jakého Mustanga chcete rezervovat?"
+        android:text="@string/reservation_prompt"
+        android:gravity="center"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvHeaderTitle" />
 
+    <ImageView
+        android:id="@+id/ivMustang"
+        android:layout_width="0dp"
+        android:layout_height="180dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/mustang_image_default"
+        android:scaleType="fitCenter"
+        android:src="@drawable/eco"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitleDescription" />
+
     <RadioGroup
         android:id="@+id/rgMustangs"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:checkedButton="@id/rbEcoboost"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitleDescription">
+        app:layout_constraintTop_toBottomOf="@+id/ivMustang">
 
         <RadioButton
             android:id="@+id/rbEcoboost"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="2.3L Ecoboost" />
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:minHeight="56dp"
+            android:text="@string/mustang_ecoboost" />
 
         <RadioButton
             android:id="@+id/rbV8"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="5.0L V8" />
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:minHeight="56dp"
+            android:text="@string/mustang_v8" />
 
         <RadioButton
             android:id="@+id/rbShelby"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="5.0L Shelby GT500" />
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:minHeight="56dp"
+            android:text="@string/mustang_shelby" />
 
     </RadioGroup>
 
@@ -68,8 +92,8 @@
         android:id="@+id/cbDriftWheels"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:text="Driftovací pneu"
+        android:layout_marginStart="16dp"
+        android:text="@string/option_drift_wheels"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cbPhotography" />
 
@@ -77,31 +101,34 @@
         android:id="@+id/cbPhotography"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:text="S focením"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/option_photography"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rgMustangs" />
 
     <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
+        android:id="@+id/tvTotalPrice"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
+        android:layout_marginTop="24dp"
         android:background="#FBE2BE"
         android:padding="12dp"
-        android:text="Cena: 0 Kč"
-        app:layout_constraintBottom_toBottomOf="@+id/cbDriftWheels"
+        tools:text="Cena za 1 hodinu včetně doplňků: 1 500 Kč"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/cbPhotography" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cbDriftWheels" />
 
     <Button
         android:id="@+id/btnReserve"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="Zarezervovat"
+        android:layout_marginBottom="24dp"
+        android:text="@string/reserve_button"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cbDriftWheels" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintTop_toBottomOf="@+id/tvTotalPrice" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
