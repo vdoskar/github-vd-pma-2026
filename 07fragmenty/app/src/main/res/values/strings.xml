@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Mustangy</string>
+    <string name="title">Mustangy</string>
+    <string name="subtitle">Vyberte si svůj oblíbený model</string>
+    <string name="show_a">Mustang V8</string>
+    <string name="show_b">Shelby</string>
+    <string name="mustang_v8">Ford Mustang V8</string>
+    <string name="mustang_shelby">Ford Mustang Shelby</string>
+</resources>
