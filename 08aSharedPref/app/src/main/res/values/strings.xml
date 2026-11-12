@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Mustang profil A</string>
+    <string name="settings_title">Profil řidiče Mustangu</string>
+    <string name="method_description">A · SharedPreferences · 3 sekundy bez odezvy</string>
+    <string name="driver_name_hint">Jméno řidiče</string>
+    <string name="sport_mode">Zapnout sportovní režim</string>
+    <string name="save">Uložit (SharedPreferences)</string>
+    <string name="progress_description">Načítací kolečko</string>
+    <string name="garage_hint">Garáž: přepínejte model i během ukládání. Výběr se neukládá.</string>
+    <string name="mustang_v8">Ford Mustang V8</string>
+    <string name="mustang_shelby">Ford Mustang Shelby</string>
+    <string name="change_mustang">Přepnout Mustang</string>
+    <string name="show_dashboard">Zobrazit uložený profil</string>
+    <string name="dashboard_title">Přehled řidiče</string>
+    <string name="dashboard_hint">Trvale uložená data vašeho profilu</string>
+    <string name="driver_summary">Řidič: %1$s</string>
+    <string name="no_driver">Jméno zatím není uložené</string>
+    <string name="sport_enabled">Sportovní režim: zapnutý</string>
+    <string name="sport_disabled">Sportovní režim: vypnutý</string>
+    <string name="edit_profile">Zpět do nastavení</string>
+    <string name="saved_message">Profil uložen přes SharedPreferences</string>
+    <string name="save_error">Profil se nepodařilo uložit.</string>
+    <string name="load_error">Profil se nepodařilo načíst. Zkuste obrazovku otevřít znovu.</string>
+    <string name="back_action">Zpět</string>
+    <string name="back_action_info">Ukázková akce Zpět. Profil zůstává uložený.</string>
+</resources>

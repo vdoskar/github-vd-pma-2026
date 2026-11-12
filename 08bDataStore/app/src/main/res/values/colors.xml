@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="mustang_background">#101820</color>
+    <color name="mustang_text">#F4F7FA</color>
+    <color name="mustang_accent">#AECFFF</color>
+    <color name="mustang_on_accent">#062E55</color>
+</resources>

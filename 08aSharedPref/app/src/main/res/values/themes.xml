@@ -1,0 +1,10 @@
+<resources>
+    <style name="Theme.MustangProfile" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="android:colorBackground">@color/mustang_background</item>
+        <item name="colorSurface">@color/mustang_background</item>
+        <item name="colorOnSurface">@color/mustang_text</item>
+        <item name="colorPrimary">@color/mustang_accent</item>
+        <item name="colorOnPrimary">@color/mustang_on_accent</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+</resources>
