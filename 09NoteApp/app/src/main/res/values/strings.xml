@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">09NoteApp</string>
+    <string name="add_note">Přidat poznámku</string>
+    <string name="new_note">Nová poznámka</string>
+    <string name="note_title">Název poznámky</string>
+    <string name="note_content">Obsah poznámky</string>
+    <string name="save_note">Uložit poznámku</string>
+    <string name="note_fields_required">Vyplň název i obsah</string>
+</resources>
