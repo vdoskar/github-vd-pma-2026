@@ -18,6 +18,8 @@ object NoteHubDatabaseInstance {
      */
     fun getDatabase(context: Context): NoteHubDatabase {
         return INSTANCE ?: synchronized(this) {
+            INSTANCE?.let { return@synchronized it }
+
             val instance = Room.databaseBuilder(
                 context.applicationContext,
                 NoteHubDatabase::class.java,
