@@ -3,7 +3,13 @@ package com.example.a09noteapp
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.a09noteapp.data.NoteHubDatabaseInstance
 import com.example.a09noteapp.databinding.ActivityMainBinding
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -17,6 +23,19 @@ class MainActivity : AppCompatActivity() {
         binding.fabAddNote.setOnClickListener {
             val intent = Intent(this, AddNoteActivity::class.java)
             startActivity(intent)
+        }
+
+        val adapter = NoteAdapter()
+        binding.recyclerViewNotes.layoutManager = LinearLayoutManager(this)
+        binding.recyclerViewNotes.adapter = adapter
+
+        val noteDao = NoteHubDatabaseInstance.getDatabase(applicationContext).noteDao()
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                noteDao.getAllNotes().collect { notes ->
+                    adapter.submitList(notes)
+                }
+            }
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.example.a09noteapp
 
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -12,6 +14,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.example.a09noteapp.data.NoteHubDatabaseInstance
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withTimeout
@@ -29,7 +32,7 @@ class AddNoteFlowTest {
         val content = "Content saved from the add note form"
 
         try {
-            ActivityScenario.launch(MainActivity::class.java).use {
+            ActivityScenario.launch(MainActivity::class.java).use { scenario ->
                 onView(withId(R.id.fabAddNote)).perform(click())
 
                 onView(withId(R.id.btnSaveNote)).perform(scrollTo(), click())
@@ -52,12 +55,36 @@ class AddNoteFlowTest {
                 }
                 assertEquals(content, savedNote.content)
                 onView(withId(R.id.fabAddNote)).check(matches(isDisplayed()))
+
+                val updatedContent = "Content updated directly in Room"
+                runBlocking {
+                    awaitFirstNote(scenario, title, content)
+                    noteDao.update(savedNote.copy(content = updatedContent))
+                    awaitFirstNote(scenario, title, updatedContent)
+                }
             }
         } finally {
             runBlocking {
                 noteDao.getAllNotes().first().filter { it.title == title }
                     .forEach { noteDao.delete(it) }
             }
+        }
+    }
+
+    private suspend fun awaitFirstNote(
+        scenario: ActivityScenario<MainActivity>,
+        title: String,
+        content: String
+    ) = withTimeout(10_000) {
+        var matchesNote = false
+        while (!matchesNote) {
+            scenario.onActivity { activity ->
+                val list = activity.findViewById<RecyclerView>(R.id.recyclerViewNotes)
+                val item = list.findViewHolderForAdapterPosition(0)?.itemView
+                matchesNote = item?.findViewById<TextView>(R.id.tvNoteTitle)?.text == title &&
+                    item?.findViewById<TextView>(R.id.tvNoteContent)?.text == content
+            }
+            if (!matchesNote) delay(50)
         }
     }
 }
