@@ -27,11 +27,18 @@ class MainActivity : AppCompatActivity() {
         }
 
         val noteDao = NoteHubDatabaseInstance.getDatabase(applicationContext).noteDao()
-        val adapter = NoteAdapter(onDeleteClick = { note ->
-            lifecycleScope.launch(Dispatchers.IO) {
-                noteDao.delete(note)
+        val adapter = NoteAdapter(
+            onEditClick = { note ->
+                val intent = Intent(this, EditNoteActivity::class.java)
+                    .putExtra(EditNoteActivity.EXTRA_NOTE_ID, note.id)
+                startActivity(intent)
+            },
+            onDeleteClick = { note ->
+                lifecycleScope.launch(Dispatchers.IO) {
+                    noteDao.delete(note)
+                }
             }
-        })
+        )
         binding.recyclerViewNotes.layoutManager = LinearLayoutManager(this)
         binding.recyclerViewNotes.adapter = adapter
 

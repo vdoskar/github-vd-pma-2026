@@ -10,15 +10,13 @@ import com.example.a09noteapp.databinding.ItemNoteBinding
 
 class NoteAdapter(
     private val onDeleteClick: (Note) -> Unit,
-    private val onEditClick: ((Note) -> Unit)? = null
+    private val onEditClick: (Note) -> Unit
 ) : ListAdapter<Note, NoteAdapter.NoteViewHolder>(NoteDiff) {
 
     class NoteViewHolder(val binding: ItemNoteBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val binding = ItemNoteBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        binding.ivEdit.isEnabled = onEditClick != null
-        if (onEditClick == null) binding.ivEdit.alpha = 0.38f
         return NoteViewHolder(binding)
     }
 
@@ -26,9 +24,7 @@ class NoteAdapter(
         val note = getItem(position)
         holder.binding.tvNoteTitle.text = note.title
         holder.binding.tvNoteContent.text = note.content
-        onEditClick?.let { edit ->
-            holder.binding.ivEdit.setOnClickListener { edit(note) }
-        }
+        holder.binding.ivEdit.setOnClickListener { onEditClick(note) }
         holder.binding.ivDelete.setOnClickListener { onDeleteClick(note) }
     }
 

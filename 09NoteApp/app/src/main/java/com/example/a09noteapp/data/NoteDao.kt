@@ -19,9 +19,12 @@ interface NoteDao {
     @Query("SELECT * FROM note_table ORDER BY id DESC")
     fun getAllNotes(): Flow<List<Note>>
 
+    @Query("SELECT * FROM note_table WHERE id = :id")
+    suspend fun getNoteById(id: Int): Note?
+
     // UPDATE - Aktualizuje existující poznámku
     @Update
-    suspend fun update(note: Note)
+    suspend fun update(note: Note): Int
 
     // DELETE - Smaže poznámku
     @Delete

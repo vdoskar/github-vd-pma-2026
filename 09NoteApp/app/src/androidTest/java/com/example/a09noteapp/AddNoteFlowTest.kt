@@ -110,6 +110,51 @@ class AddNoteFlowTest {
         }
     }
 
+    @Test
+    fun editsTheSelectedNoteWithoutCreatingANewRow() {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val noteDao = NoteHubDatabaseInstance.getDatabase(context).noteDao()
+        val testId = System.nanoTime()
+        val original = Note(title = "Original $testId", content = "Original content")
+        val newTitle = "Edited $testId"
+        val newContent = "Edited content"
+
+        try {
+            val savedNote = runBlocking {
+                noteDao.insert(original)
+                noteDao.getAllNotes().first().single { it.title == original.title }
+            }
+            ActivityScenario.launch(MainActivity::class.java).use { scenario ->
+                runBlocking { awaitFirstNote(scenario, original.title, original.content) }
+                onView(allOf(withId(R.id.ivEdit), hasSibling(hasDescendant(withText(original.title)))))
+                    .perform(click())
+
+                onView(withId(R.id.etEditTitle)).check(matches(withText(original.title)))
+                onView(withId(R.id.etEditContent)).check(matches(withText(original.content)))
+                onView(withId(R.id.etEditTitle)).perform(replaceText(""), closeSoftKeyboard())
+                onView(withId(R.id.btnSaveChanges)).perform(scrollTo(), click())
+                onView(withId(R.id.etEditContent)).check(matches(isDisplayed()))
+                onView(withId(R.id.etEditTitle)).perform(replaceText(newTitle), closeSoftKeyboard())
+                onView(withId(R.id.etEditContent)).perform(replaceText(newContent), closeSoftKeyboard())
+                onView(withId(R.id.btnSaveChanges)).perform(scrollTo(), click())
+
+                runBlocking {
+                    awaitFirstNote(scenario, newTitle, newContent)
+                    val notes = noteDao.getAllNotes().first()
+                        .filter { it.title == original.title || it.title == newTitle }
+                    assertEquals(listOf(savedNote.copy(title = newTitle, content = newContent)), notes)
+                }
+                onView(withId(R.id.fabAddNote)).check(matches(isDisplayed()))
+            }
+        } finally {
+            runBlocking {
+                noteDao.getAllNotes().first()
+                    .filter { it.title == original.title || it.title == newTitle }
+                    .forEach { noteDao.delete(it) }
+            }
+        }
+    }
+
     private suspend fun awaitFirstNote(
         scenario: ActivityScenario<MainActivity>,
         title: String,
