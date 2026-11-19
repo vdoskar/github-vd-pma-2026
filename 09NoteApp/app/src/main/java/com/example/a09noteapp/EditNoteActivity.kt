@@ -9,11 +9,12 @@ import com.example.a09noteapp.databinding.ActivityEditNoteBinding
 import kotlinx.coroutines.launch
 
 class EditNoteActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityEditNoteBinding
     private var formLoaded = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityEditNoteBinding.inflate(layoutInflater)
+        binding = ActivityEditNoteBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val noteId = intent.getIntExtra(EXTRA_NOTE_ID, -1)
@@ -34,9 +35,12 @@ class EditNoteActivity : AppCompatActivity() {
                 binding.etEditTitle.setText(note.title)
                 binding.etEditContent.setText(note.content)
             }
+            val selectedCategory = savedInstanceState?.getString(STATE_CATEGORY) ?: note.category
+            binding.spinnerCategory.showNoteCategories(selectedCategory)
             formLoaded = true
             binding.etEditTitle.isEnabled = true
             binding.etEditContent.isEnabled = true
+            binding.spinnerCategory.isEnabled = true
             binding.btnSaveChanges.isEnabled = true
 
             binding.btnSaveChanges.setOnClickListener {
@@ -48,8 +52,11 @@ class EditNoteActivity : AppCompatActivity() {
                 }
 
                 binding.btnSaveChanges.isEnabled = false
+                val category = binding.spinnerCategory.selectedItem.toString()
                 lifecycleScope.launch {
-                    val updatedRows = noteDao.update(note.copy(title = title, content = content))
+                    val updatedRows = noteDao.update(
+                        note.copy(title = title, content = content, category = category)
+                    )
                     if (updatedRows == 0) closeMissingNote() else finish()
                 }
             }
@@ -58,6 +65,7 @@ class EditNoteActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putBoolean(STATE_FORM_LOADED, formLoaded)
+        if (formLoaded) outState.putString(STATE_CATEGORY, binding.spinnerCategory.selectedItem.toString())
         super.onSaveInstanceState(outState)
     }
 
@@ -69,5 +77,6 @@ class EditNoteActivity : AppCompatActivity() {
     companion object {
         const val EXTRA_NOTE_ID = "note_id"
         private const val STATE_FORM_LOADED = "form_loaded"
+        private const val STATE_CATEGORY = "category"
     }
 }

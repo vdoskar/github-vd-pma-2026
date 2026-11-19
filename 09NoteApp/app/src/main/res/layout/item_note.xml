@@ -34,6 +34,15 @@
             android:textColor="?attr/colorOnSurface"
             android:textSize="14sp"
             tools:text="@string/note_content" />
+
+        <TextView
+            android:id="@+id/tvNoteCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textAppearance="?attr/textAppearanceBodySmall"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            tools:text="General" />
     </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatImageButton

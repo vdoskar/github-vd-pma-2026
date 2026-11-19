@@ -10,16 +10,24 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.text.DateFormat
+import java.util.Date
 
 class AddNoteActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddNoteBinding
+    private var createdAt = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityAddNoteBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        createdAt = savedInstanceState?.getLong(STATE_CREATED_AT) ?: System.currentTimeMillis()
+        binding.spinnerCategory.showNoteCategories()
+        val formattedDate = DateFormat.getDateTimeInstance().format(Date(createdAt))
+        binding.textCreatedAtInfo.text = getString(R.string.note_created_at, formattedDate)
 
         val db = NoteHubDatabaseInstance.getDatabase(this)
         val noteDao = db.noteDao()
@@ -33,7 +41,12 @@ class AddNoteActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            val note = Note(title = title, content = content)
+            val note = Note(
+                title = title,
+                content = content,
+                createdAt = createdAt,
+                category = binding.spinnerCategory.selectedItem.toString()
+            )
 
             // Spustí korutinu na vlákně určeném pro vstupně/výstupní operace (IO),
             // které jsou vhodné pro práci s databází, aby se nezablokovalo UI.
@@ -48,5 +61,14 @@ class AddNoteActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putLong(STATE_CREATED_AT, createdAt)
+        super.onSaveInstanceState(outState)
+    }
+
+    private companion object {
+        const val STATE_CREATED_AT = "created_at"
     }
 }

@@ -3,6 +3,7 @@ package com.example.a09noteapp
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ActivityScenario
+import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
@@ -23,6 +24,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withTimeout
 import org.hamcrest.Matchers.allOf
+import org.hamcrest.Matchers.equalTo
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -50,6 +52,8 @@ class AddNoteFlowTest {
 
                 onView(withId(R.id.editTextContent))
                     .perform(replaceText(content), closeSoftKeyboard())
+                onView(withId(R.id.spinnerCategory)).perform(scrollTo(), click())
+                onData(equalTo("Škola")).perform(click())
                 onView(withId(R.id.btnSaveNote)).perform(scrollTo(), click())
 
                 val savedNote = runBlocking {
@@ -59,6 +63,7 @@ class AddNoteFlowTest {
                     }
                 }
                 assertEquals(content, savedNote.content)
+                assertEquals("Škola", savedNote.category)
                 onView(withId(R.id.fabAddNote)).check(matches(isDisplayed()))
 
                 val updatedContent = "Content updated directly in Room"
@@ -115,7 +120,7 @@ class AddNoteFlowTest {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         val noteDao = NoteHubDatabaseInstance.getDatabase(context).noteDao()
         val testId = System.nanoTime()
-        val original = Note(title = "Original $testId", content = "Original content")
+        val original = Note(title = "Original $testId", content = "Original content", category = "Škola")
         val newTitle = "Edited $testId"
         val newContent = "Edited content"
 
@@ -131,19 +136,24 @@ class AddNoteFlowTest {
 
                 onView(withId(R.id.etEditTitle)).check(matches(withText(original.title)))
                 onView(withId(R.id.etEditContent)).check(matches(withText(original.content)))
+                onView(withId(R.id.spinnerCategory)).check(matches(hasDescendant(withText("Škola"))))
                 onView(withId(R.id.etEditTitle)).perform(replaceText(""), closeSoftKeyboard())
                 onView(withId(R.id.btnSaveChanges)).perform(scrollTo(), click())
                 onView(withId(R.id.etEditContent)).check(matches(isDisplayed()))
                 onView(withId(R.id.etEditTitle)).perform(replaceText(newTitle), closeSoftKeyboard())
                 onView(withId(R.id.etEditContent)).perform(replaceText(newContent), closeSoftKeyboard())
+                onView(withId(R.id.spinnerCategory)).perform(scrollTo(), click())
+                onData(equalTo("Práce")).perform(click())
                 onView(withId(R.id.btnSaveChanges)).perform(scrollTo(), click())
 
                 runBlocking {
                     awaitFirstNote(scenario, newTitle, newContent)
                     val notes = noteDao.getAllNotes().first()
                         .filter { it.title == original.title || it.title == newTitle }
-                    assertEquals(listOf(savedNote.copy(title = newTitle, content = newContent)), notes)
+                    assertEquals(listOf(savedNote.copy(title = newTitle, content = newContent, category = "Práce")), notes)
                 }
+                onView(allOf(withId(R.id.tvNoteCategory), hasSibling(withText(newTitle))))
+                    .check(matches(withText("Práce")))
                 onView(withId(R.id.fabAddNote)).check(matches(isDisplayed()))
             }
         } finally {
@@ -152,6 +162,56 @@ class AddNoteFlowTest {
                     .filter { it.title == original.title || it.title == newTitle }
                     .forEach { noteDao.delete(it) }
             }
+        }
+    }
+
+    @Test
+    fun searchesTitleAndContentAndClearsTheFilter() {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val noteDao = NoteHubDatabaseInstance.getDatabase(context).noteDao()
+        val testId = System.nanoTime()
+        val query = "match_$testId"
+        val titleMatch = Note(title = "Title $query", content = "Unrelated content")
+        val contentMatch = Note(title = "Content match $testId", content = "Contains $query")
+        val noMatch = Note(title = "Title matchX$testId", content = "Unrelated")
+        val fixtures = listOf(titleMatch, contentMatch, noMatch)
+        val titles = fixtures.map { it.title }
+
+        try {
+            runBlocking { fixtures.forEach { noteDao.insert(it) } }
+            ActivityScenario.launch(MainActivity::class.java).use { scenario ->
+                val search = onView(withId(androidx.appcompat.R.id.search_src_text))
+                search.perform(replaceText(query), closeSoftKeyboard())
+                runBlocking {
+                    awaitSearchResults(scenario, titles, listOf(contentMatch.title, titleMatch.title))
+                    val savedNote = noteDao.searchNotes(query).first().first { it.title == contentMatch.title }
+                    noteDao.update(savedNote.copy(content = "No longer matches"))
+                    awaitSearchResults(scenario, titles, listOf(titleMatch.title))
+                }
+                search.perform(replaceText(""), closeSoftKeyboard())
+                runBlocking { awaitSearchResults(scenario, titles, titles.reversed()) }
+            }
+        } finally {
+            runBlocking {
+                noteDao.getAllNotes().first().filter { it.title in titles }
+                    .forEach { noteDao.delete(it) }
+            }
+        }
+    }
+
+    private suspend fun awaitSearchResults(
+        scenario: ActivityScenario<MainActivity>,
+        fixtureTitles: List<String>,
+        expected: List<String>
+    ) = withTimeout(10_000) {
+        var actual = emptyList<String>()
+        while (actual != expected) {
+            scenario.onActivity { activity ->
+                val list = activity.findViewById<RecyclerView>(R.id.recyclerViewNotes)
+                actual = (list.adapter as NoteAdapter).currentList.map { it.title }
+                    .filter { it in fixtureTitles }
+            }
+            if (actual != expected) delay(50)
         }
     }
 

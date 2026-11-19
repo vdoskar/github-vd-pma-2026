@@ -40,6 +40,21 @@
             android:inputType="textMultiLine|textCapSentences"
             android:minLines="6" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:labelFor="@+id/spinnerCategory"
+            android:text="@string/note_category"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@id/spinnerCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:minHeight="48dp" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSaveChanges"
             android:layout_width="match_parent"

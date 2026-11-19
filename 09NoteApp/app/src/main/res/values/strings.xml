@@ -7,8 +7,17 @@
     <string name="new_note">Nová poznámka</string>
     <string name="note_title">Název poznámky</string>
     <string name="note_content">Obsah poznámky</string>
+    <string name="note_category">Kategorie</string>
+    <string name="note_created_at">Vytvořeno: %1$s</string>
+    <string name="search_notes">Hledat poznámky…</string>
     <string name="save_note">Uložit poznámku</string>
     <string name="save_note_changes">Uložit změny</string>
     <string name="note_not_found">Poznámka už není dostupná</string>
     <string name="note_fields_required">Vyplň název i obsah</string>
+    <string-array name="note_categories" translatable="false">
+        <item>General</item>
+        <item>Škola</item>
+        <item>Práce</item>
+        <item>Osobní</item>
+    </string-array>
 </resources>

@@ -24,6 +24,7 @@ class NoteAdapter(
         val note = getItem(position)
         holder.binding.tvNoteTitle.text = note.title
         holder.binding.tvNoteContent.text = note.content
+        holder.binding.tvNoteCategory.text = note.category
         holder.binding.ivEdit.setOnClickListener { onEditClick(note) }
         holder.binding.ivDelete.setOnClickListener { onDeleteClick(note) }
     }
