@@ -5,7 +5,7 @@ import androidx.room3.RoomDatabase
 
 @Database(
     entities = [Note::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 

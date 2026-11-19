@@ -2,7 +2,8 @@ package com.example.a09noteapp.data
 
 import android.content.Context
 import androidx.room3.Room
-import androidx.sqlite.driver.AndroidSQLiteDriver
+import androidx.room3.migration.Migration
+import androidx.sqlite.execSQL
 
 object NoteHubDatabaseInstance {
 
@@ -12,6 +13,10 @@ object NoteHubDatabaseInstance {
     @Volatile
     private var INSTANCE: NoteHubDatabase? = null
 
+    private val MIGRATION_1_2 = Migration(1, 2) { connection ->
+        connection.execSQL("ALTER TABLE note_table ADD COLUMN createdAt INTEGER NOT NULL DEFAULT 0")
+        connection.execSQL("ALTER TABLE note_table ADD COLUMN category TEXT NOT NULL DEFAULT 'General'")
+    }
 
     /**
      * Vrátí instanci databáze. Pokud ještě neexistuje, vytvoří ji.
@@ -25,8 +30,7 @@ object NoteHubDatabaseInstance {
                 NoteHubDatabase::class.java,
                 "notehub_database"
             )
-
-                //.setDriver(AndroidSQLiteDriver()) // NOVINKA V ROOM 3: Nastavení ovladače pro Android
+                .addMigrations(MIGRATION_1_2)
                 .build()
             INSTANCE = instance
             instance
