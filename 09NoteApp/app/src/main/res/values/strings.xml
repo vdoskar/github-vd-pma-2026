@@ -2,6 +2,8 @@
     <string name="app_name">09NoteApp</string>
     <string name="notes_title">Moje poznámky</string>
     <string name="add_note">Přidat poznámku</string>
+    <string name="edit_note">Upravit poznámku</string>
+    <string name="delete_note">Smazat poznámku</string>
     <string name="new_note">Nová poznámka</string>
     <string name="note_title">Název poznámky</string>
     <string name="note_content">Obsah poznámky</string>

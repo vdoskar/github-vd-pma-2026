@@ -9,6 +9,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.a09noteapp.data.NoteHubDatabaseInstance
 import com.example.a09noteapp.databinding.ActivityMainBinding
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
@@ -25,11 +26,15 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        val adapter = NoteAdapter()
+        val noteDao = NoteHubDatabaseInstance.getDatabase(applicationContext).noteDao()
+        val adapter = NoteAdapter(onDeleteClick = { note ->
+            lifecycleScope.launch(Dispatchers.IO) {
+                noteDao.delete(note)
+            }
+        })
         binding.recyclerViewNotes.layoutManager = LinearLayoutManager(this)
         binding.recyclerViewNotes.adapter = adapter
 
-        val noteDao = NoteHubDatabaseInstance.getDatabase(applicationContext).noteDao()
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 noteDao.getAllNotes().collect { notes ->
