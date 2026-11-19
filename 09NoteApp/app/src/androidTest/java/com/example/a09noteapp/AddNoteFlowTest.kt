@@ -9,15 +9,20 @@ import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
 import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
+import androidx.test.espresso.matcher.ViewMatchers.hasSibling
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import com.example.a09noteapp.data.Note
 import com.example.a09noteapp.data.NoteHubDatabaseInstance
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withTimeout
+import org.hamcrest.Matchers.allOf
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -66,6 +71,40 @@ class AddNoteFlowTest {
         } finally {
             runBlocking {
                 noteDao.getAllNotes().first().filter { it.title == title }
+                    .forEach { noteDao.delete(it) }
+            }
+        }
+    }
+
+    @Test
+    fun deletesOnlyTheSelectedNote() {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val noteDao = NoteHubDatabaseInstance.getDatabase(context).noteDao()
+        val testId = System.nanoTime()
+        val keptNote = Note(title = "Keep $testId", content = "Keep this note")
+        val deletedNote = Note(title = "Delete $testId", content = "Delete this note")
+        val testTitles = setOf(keptNote.title, deletedNote.title)
+
+        try {
+            runBlocking {
+                noteDao.insert(keptNote)
+                noteDao.insert(deletedNote)
+            }
+            ActivityScenario.launch(MainActivity::class.java).use { scenario ->
+                runBlocking { awaitFirstNote(scenario, deletedNote.title, deletedNote.content) }
+                onView(allOf(withId(R.id.ivDelete), hasSibling(hasDescendant(withText(deletedNote.title)))))
+                    .perform(click())
+
+                runBlocking {
+                    awaitFirstNote(scenario, keptNote.title, keptNote.content)
+                    val remainingTitles = noteDao.getAllNotes().first()
+                        .map { it.title }.filter { it in testTitles }
+                    assertEquals(listOf(keptNote.title), remainingTitles)
+                }
+            }
+        } finally {
+            runBlocking {
+                noteDao.getAllNotes().first().filter { it.title in testTitles }
                     .forEach { noteDao.delete(it) }
             }
         }
